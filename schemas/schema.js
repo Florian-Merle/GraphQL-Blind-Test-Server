@@ -43,7 +43,6 @@ const Query = new GraphQLObjectType({
 });
 
 /**
- * TODO:
  * MUTIATION
  */
 const Mutation = new GraphQLObjectType({

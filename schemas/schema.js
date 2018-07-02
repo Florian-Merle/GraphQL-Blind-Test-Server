@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const models = require('../models/index');
+const mongoose = require('mongoose');
 const {
     GraphQLSchema,
     GraphQLObjectType,
@@ -7,6 +7,8 @@ const {
     GraphQLID,
     GraphQLString,
 } = graphql;
+
+const PlaylistModel = mongoose.model('playlist');
 
 /**
  * TYPES
@@ -30,13 +32,13 @@ const Query = new GraphQLObjectType({
             type: PlaylistType,
             args: { id: { type: GraphQLID } },
             resolve: (parent, args) => {
-                return models.Playlist.findById(args.id);
+                return PlaylistModel.findById(args.id).exec();
             }
         },
         playlists: {
             type: new GraphQLList(PlaylistType),
             resolve: (parent, args) => {
-                return models.Playlist.findAll();
+                return PlaylistModel.find().exec();
             }
         },
     }),
@@ -57,12 +59,10 @@ const Mutation = new GraphQLObjectType({
             resolve: (parent, args) => {
                 if (!args.name) return;
 
-                return models.Playlist
-                    .build({
-                        name: args.name,
-                        name: args.genre,
-                    })
-                    .save();
+                return new PlaylistModel({
+                    name: args.name,
+                    genre: args.genre,
+                }).save();
             },
         },
         updatePlaylist: {
@@ -83,17 +83,12 @@ const Mutation = new GraphQLObjectType({
                     data.genre = args.genre;
                 }
 
-                models.Playlist
-                    .update(
-                        data,
-                        {
-                            returning: true,
-                            plain: true,
-                            where: { id: args.id },
-                        }
-                    );
-
-                return models.Playlist.findById(args.id);
+                return PlaylistModel
+                    .findByIdAndUpdate(
+                        args.id,
+                        { $set: { data } },
+                        { new: true },
+                    ).exec()
             },
         },
     }),

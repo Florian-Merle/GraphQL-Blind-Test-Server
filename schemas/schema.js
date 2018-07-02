@@ -6,7 +6,7 @@ const {
 } = graphql;
 
 /**
- * QUERY
+ * QUERIES
  */
 const Query = new GraphQLObjectType({
     name: 'QueryType',
@@ -18,7 +18,7 @@ const Query = new GraphQLObjectType({
 });
 
 /**
- * MUTIATION
+ * MUTATIONS
  */
 const Mutation = new GraphQLObjectType({
     name: 'Mutations',

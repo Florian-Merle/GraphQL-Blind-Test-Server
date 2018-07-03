@@ -6,29 +6,30 @@ const {
 
 const mongoose = require('mongoose');
 const PlaylistModel = mongoose.model('playlist');
-const PlaylistType = require('../types/playlistType');
+const MusicModel = mongoose.model('music');
+const MusicType = require('../types/musicType');
 
 module.exports = {
-    addPlaylist: {
-        type: PlaylistType,
+    addMusic: {
+        type: MusicType,
         args: {
             name: { type: GraphQLString },
-            genre: { type: GraphQLString },
+            url: { type: GraphQLString },
         },
         resolve: (parent, args) => {
             if (!args.name) return;
 
-            return new PlaylistModel(
+            return new MusicModel(
                 args
             ).save();
         },
     },
-    updatePlaylist: {
-        type: PlaylistType,
+    updateMusic: {
+        type: MusicType,
         args: {
             id: { type: GraphQLID },
             name: { type: GraphQLString },
-            genre: { type: GraphQLString },
+            url: { type: GraphQLString },
         },
         resolve: (parent, args) => {
             if (!args.id) return;
@@ -36,7 +37,7 @@ module.exports = {
             let id = args.id;
             delete args.id;
 
-            return PlaylistModel
+            return MusicModel
                 .findByIdAndUpdate(
                     id,
                     { $set: args },

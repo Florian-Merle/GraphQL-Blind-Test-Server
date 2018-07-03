@@ -11,3 +11,4 @@ mongoose.connection.on('error', error => console.log('Error with mongodb: ' + er
 
 // get schemas & models
 require('./playlistModel');
+require('./musicModel');

@@ -5,16 +5,14 @@ const {
     GraphQLString,
     GraphQLNonNull,
 } = graphql;
-const MusicType = require('./musicType');
 
-const PlaylistType = new GraphQLObjectType({
-    name: 'Playlist',
+const MusicType = new GraphQLObjectType({
+    name: 'Music',
     fields: () => ({
         id: { type: new GraphQLNonNull(GraphQLID) },
         name: { type: GraphQLString },
-        genre: { type: GraphQLString },
-        musics: { type: MusicType }
+        url: { type: GraphQLString },
     })
 });
 
-module.exports = PlaylistType;
+module.exports = MusicType;

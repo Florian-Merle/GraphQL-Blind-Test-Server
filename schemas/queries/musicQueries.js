@@ -17,14 +17,10 @@ module.exports = {
             return MusicModel.findById(args.id).exec();
         }
     },
-    // musics: {
-    //     type: new GraphQLList(MusicType),
-    //     resolve: (parent, args) => {
-    //         if (parent) {
-    //             //TODO:
-    //         }
-
-    //         return PlaylistModel.find().exec();
-    //     }
-    // }
+    musics: {
+        type: new GraphQLList(MusicType),
+        resolve: (parent, args) => {
+            return MusicModel.find().exec();
+        }
+    }
 };

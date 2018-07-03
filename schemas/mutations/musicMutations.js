@@ -45,4 +45,22 @@ module.exports = {
                 ).exec();
         },
     },
+    deleteMusic: {
+        type: MusicType,
+        args: {
+            id: { type: GraphQLID },
+            name: { type: GraphQLString },
+            url: { type: GraphQLString },
+        },
+        resolve: (parent, args) => {
+            if (!args.id) return;
+
+            let id = args.id;
+
+            return MusicModel
+                .findByIdAndDelete(
+                    id,
+                ).exec();
+        },
+    },
 };

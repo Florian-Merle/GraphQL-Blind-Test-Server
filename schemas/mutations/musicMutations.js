@@ -2,6 +2,7 @@ const graphql = require('graphql');
 const {
     GraphQLID,
     GraphQLString,
+    GraphQLList,
 } = graphql;
 
 const mongoose = require('mongoose');
@@ -15,6 +16,7 @@ module.exports = {
         args: {
             name: { type: GraphQLString },
             url: { type: GraphQLString },
+            wrongAnswers: { type: new GraphQLList(GraphQLString) },
         },
         resolve: (parent, args) => {
             if (!args.name) return;
@@ -30,6 +32,7 @@ module.exports = {
             id: { type: GraphQLID },
             name: { type: GraphQLString },
             url: { type: GraphQLString },
+            wrongAnswers: { type: new GraphQLList(GraphQLString) },
         },
         resolve: (parent, args) => {
             if (!args.id) return;

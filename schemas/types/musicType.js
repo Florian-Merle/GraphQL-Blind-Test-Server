@@ -4,6 +4,7 @@ const {
     GraphQLID,
     GraphQLString,
     GraphQLNonNull,
+    GraphQLList,
 } = graphql;
 
 const MusicType = new GraphQLObjectType({
@@ -12,6 +13,7 @@ const MusicType = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLID) },
         name: { type: GraphQLString },
         url: { type: GraphQLString },
+        wrongAnswers: { type: new GraphQLList(GraphQLString) },
     })
 });
 

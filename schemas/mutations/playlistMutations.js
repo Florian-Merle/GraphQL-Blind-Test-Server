@@ -62,4 +62,42 @@ module.exports = {
                 ).exec();
         },
     },
+    addMusicToPlaylist: {
+        type: PlaylistType,
+        args: {
+            idPlaylist: { type: GraphQLID },
+            idMusic: { type: GraphQLID },
+        },
+        resolve: (parent, args) => {
+            if (!args.idPlaylist || !args.idMusic) return;
+
+            return PlaylistModel.findById(args.idPlaylist)
+                .then(playlist => {
+                    if (!playlist) return;
+
+                    return playlist.addMusic(
+                        args.idMusic
+                    ).save();
+                });
+           },
+    },
+    removeMusicFromPlaylist: {
+        type: PlaylistType,
+        args: {
+            idPlaylist: { type: GraphQLID },
+            idMusic: { type: GraphQLID },
+        },
+        resolve: (parent, args) => {
+            if (!args.idPlaylist || !args.idMusic) return;
+
+            return PlaylistModel.findById(args.idPlaylist)
+                .then(playlist => {
+                    if (!playlist) return;
+
+                    return playlist.removeMusic(
+                        args.idMusic
+                    ).save();
+                });
+           },
+    },
 };

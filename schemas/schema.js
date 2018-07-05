@@ -13,6 +13,7 @@ const Query = new GraphQLObjectType({
     fields: () => (
         Object.assign(
             require('./queries/playlistQueries'),
+            require('./queries/musicQueries'),
         )
     ),
 });
@@ -25,6 +26,7 @@ const Mutation = new GraphQLObjectType({
     fields: () => (
         Object.assign(
             require('./mutations/playlistMutations'),
+            require('./mutations/musicMutations'),
         )
     ),
 });

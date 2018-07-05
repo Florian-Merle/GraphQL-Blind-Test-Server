@@ -18,10 +18,9 @@ module.exports = {
         resolve: (parent, args) => {
             if (!args.name) return;
 
-            return new PlaylistModel({
-                name: args.name,
-                genre: args.genre,
-            }).save();
+            return new PlaylistModel(
+                args
+            ).save();
         },
     },
     updatePlaylist: {
@@ -34,20 +33,71 @@ module.exports = {
         resolve: (parent, args) => {
             if (!args.id) return;
 
-            let data = {};
-            if (args.name) {
-                data.name = args.name;
-            }
-            if (args.genre) {
-                data.genre = args.genre;
-            }
+            let id = args.id;
+            delete args.id;
 
             return PlaylistModel
                 .findByIdAndUpdate(
-                    args.id,
-                    { $set: { data } },
+                    id,
+                    { $set: args },
                     { new: true },
-                ).exec()
+                ).exec();
         },
+    },
+    deletePlaylist: {
+        type: PlaylistType,
+        args: {
+            id: { type: GraphQLID },
+            name: { type: GraphQLString },
+            url: { type: GraphQLString },
+        },
+        resolve: (parent, args) => {
+            if (!args.id) return;
+
+            let id = args.id;
+
+            return PlaylistModel
+                .findByIdAndDelete(
+                    id,
+                ).exec();
+        },
+    },
+    addMusicToPlaylist: {
+        type: PlaylistType,
+        args: {
+            idPlaylist: { type: GraphQLID },
+            idMusic: { type: GraphQLID },
+        },
+        resolve: (parent, args) => {
+            if (!args.idPlaylist || !args.idMusic) return;
+
+            return PlaylistModel.findById(args.idPlaylist)
+                .then(playlist => {
+                    if (!playlist) return;
+
+                    return playlist.addMusic(
+                        args.idMusic
+                    ).save();
+                });
+           },
+    },
+    removeMusicFromPlaylist: {
+        type: PlaylistType,
+        args: {
+            idPlaylist: { type: GraphQLID },
+            idMusic: { type: GraphQLID },
+        },
+        resolve: (parent, args) => {
+            if (!args.idPlaylist || !args.idMusic) return;
+
+            return PlaylistModel.findById(args.idPlaylist)
+                .then(playlist => {
+                    if (!playlist) return;
+
+                    return playlist.removeMusic(
+                        args.idMusic
+                    ).save();
+                });
+           },
     },
 };

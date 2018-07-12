@@ -13,5 +13,5 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 app.listen(4000, () => {
-    console.log('Graphql server listening on port 4000')
-})
+    console.log('Graphql server listening on port 4000');
+});
